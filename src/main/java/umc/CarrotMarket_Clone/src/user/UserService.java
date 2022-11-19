@@ -1,24 +1,23 @@
 package umc.CarrotMarket_Clone.src.user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import umc.CarrotMarket_Clone.config.BaseException;
 import umc.CarrotMarket_Clone.src.user.model.PatchUserInfoReq;
 import umc.CarrotMarket_Clone.src.user.model.PostUserReq;
 import umc.CarrotMarket_Clone.src.user.model.PostUserRes;
+import umc.CarrotMarket_Clone.utils.JwtService;
 
 import static umc.CarrotMarket_Clone.config.BaseResponseStatus.*;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    private UserDao userDao;
-    private UserProvider userProvider;
+    private final UserDao userDao;
+    private final UserProvider userProvider;
+    private final JwtService jwtService;
 
-    @Autowired
-    public UserService(UserDao userDao, UserProvider userProvider) {
-        this.userDao = userDao;
-        this.userProvider = userProvider;
-    }
 
     // 회원가입
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException{
@@ -29,7 +28,10 @@ public class UserService {
 
         try{
             int userId = userDao.createUser(postUserReq);
-            return new PostUserRes(userId);
+
+            String jwt = jwtService.createJwt(userId);
+            System.out.println(jwt);
+            return new PostUserRes(jwt, userId);
         }catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }

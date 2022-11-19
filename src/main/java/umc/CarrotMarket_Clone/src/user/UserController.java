@@ -23,6 +23,9 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * 회원 가입
+     */
     @ResponseBody
     @PostMapping("/sign-up")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq){
@@ -41,6 +44,9 @@ public class UserController {
         }
     }
 
+    /**
+     * 로그인
+     */
     @ResponseBody
     @PostMapping("/log-in")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
@@ -52,13 +58,16 @@ public class UserController {
         }
     }
 
+
+    /**
+     * 모든 회원 조회
+     */
     @ResponseBody
     @GetMapping("")
     public BaseResponse<List<GetUserRes>> getUsers(@RequestParam(required = false) String username){
         try{
             // QueryString 검사해서 username null이면 모든 유저 정보가져오기
             if(username == null){
-                System.out.println("user name is null");
                 List<GetUserRes> users = userProvider.getUsers();
                 for (GetUserRes user : users) {
                     System.out.println("userEmail = " + user.getUserEmail());
@@ -74,6 +83,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 회원 1명 조회
+     * @param userId
+     * @return
+     */
     @ResponseBody
     @GetMapping("/{userId}")
     public BaseResponse<GetUserRes> getUser(@PathVariable int userId){
@@ -85,6 +99,12 @@ public class UserController {
         }
     }
 
+    /**
+     * 회원정보 수정
+     * @param userId
+     * @param patchUserInfoReq
+     * @return
+     */
     @ResponseBody
     @PatchMapping("/{userId}")
     public BaseResponse<String> modifyUserInfo(@PathVariable int userId, @RequestBody PatchUserInfoReq patchUserInfoReq){

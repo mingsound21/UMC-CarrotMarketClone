@@ -14,5 +14,5 @@ import java.time.LocalDateTime;
 public class PostLoginReq {
     private String userName;
     private String userEmail;
-    private String userImg;
+    private String password;
 }

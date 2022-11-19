@@ -10,5 +10,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class PostUserRes {
+    private String jwt;
     private int userId;
 }
