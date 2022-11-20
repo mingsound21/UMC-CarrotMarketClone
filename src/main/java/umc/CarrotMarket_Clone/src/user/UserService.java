@@ -40,6 +40,10 @@ public class UserService {
      */
     @Transactional
     public int join(User user){
+        // 이메일 중복 확인
+
+        // 비밀번호 암호화 - 나중에
+
         // jwt
         userRepository.save(user);
         return user.getUserId();

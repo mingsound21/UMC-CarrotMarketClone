@@ -3,12 +3,12 @@ package umc.CarrotMarket_Clone.src.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import umc.CarrotMarket_Clone.config.BaseResponse;
+import umc.CarrotMarket_Clone.config.BaseResponseStatus;
 import umc.CarrotMarket_Clone.src.user.model.GetUserRes;
+import umc.CarrotMarket_Clone.src.user.model.PostUserReq;
+import umc.CarrotMarket_Clone.src.user.model.PostUserRes;
 
 import java.util.List;
 
@@ -35,6 +35,31 @@ public class UserController {
         GetUserRes user = userService.findOne(userId);
         return new BaseResponse<>(user);
     }
+
+    /**
+     * 회원 가입
+     */
+    @PostMapping("/sign-up")
+    public BaseResponse<PostUserRes> join(@RequestBody PostUserReq postUserReq){
+        // 이메일 null 체크
+        if(postUserReq.getUserEmail() == null){
+            return new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_EMAIL);
+        }
+
+
+    }
+
+    /**
+     * 로그인
+     */
+
+    /**
+     * 유저 정보 수정
+     */
+
+    /**
+     * 유저 상태 변경(삭제)
+     */
 
 
 }
