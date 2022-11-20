@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import umc.CarrotMarket_Clone.config.BaseException;
+import umc.CarrotMarket_Clone.config.secret.Secret;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;

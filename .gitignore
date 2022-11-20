@@ -27,7 +27,7 @@ out/
 !**/src/test/**/out/
 
 # secret 폴더 무시
-Secret.java
+secret/
 
 ### NetBeans ###
 /nbproject/private/

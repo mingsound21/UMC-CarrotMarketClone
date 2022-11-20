@@ -13,8 +13,9 @@ public class UserRepository {
 
     private final EntityManager em;
 
-    public void save(User user){
+    public int save(User user){
         em.persist(user);
+        return user.getUserId();
     }
 
     public User findOne(int userId){
@@ -24,5 +25,17 @@ public class UserRepository {
     public List<User> findAll(){
         return em.createQuery("select u from User u", User.class)
                 .getResultList();
+    }
+
+    public boolean validateDupliacateEmail(String email){
+        List<User> findSameEmailUser = em.createQuery("select u from User u where u.userEmail = :email", User.class)
+                .setParameter("email", email)
+                .getResultList();
+
+        if(findSameEmailUser.size() == 0){ // 중복없음 = 성공
+            return true;
+        }else{ // 중복있음 = 실패
+            return false;
+        }
     }
 }

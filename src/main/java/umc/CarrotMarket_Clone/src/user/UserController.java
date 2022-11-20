@@ -4,6 +4,7 @@ package umc.CarrotMarket_Clone.src.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import umc.CarrotMarket_Clone.config.BaseException;
 import umc.CarrotMarket_Clone.config.BaseResponse;
 import umc.CarrotMarket_Clone.config.BaseResponseStatus;
 import umc.CarrotMarket_Clone.src.user.model.GetUserRes;
@@ -46,7 +47,13 @@ public class UserController {
             return new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_EMAIL);
         }
 
-
+        // 회원 가입
+        try{
+            PostUserRes postUserRes = userService.join(postUserReq);
+            return new BaseResponse<>(postUserRes);
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 
     /**
