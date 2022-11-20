@@ -75,8 +75,25 @@ public class UserService {
      * 로그인
      */
     @Transactional
-    public void logIn(){
+    public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
+        User loginUser = userRepository.getUserByEmail(postLoginReq.getUserEmail());
+        String password = loginUser.getPassword();
 
+        // 비번 확인
+        try{
+            password = new AES128(Secret.USER_INFO_PASSWORD_KEY).decrypt(loginUser.getPassword()); // 암호화
+        }catch (Exception ignored){
+            throw new BaseException(PASSWORD_DECRYPTION_ERROR);
+        }
+
+        // 비번 일치 확인 후, jwt 값 생성
+        if(postLoginReq.getPassword().equals(password)){
+            int userIdx = loginUser.getUserId();
+            String jwt = jwtService.createJwt(userIdx);
+            return new PostLoginRes(userIdx, jwt);
+        }else{// 비밀번호가 다르다면 에러메세지를 출력한다.
+            throw new BaseException(FAILED_TO_LOGIN);
+        }
     }
 
     /**
@@ -94,6 +111,6 @@ public class UserService {
     @Transactional
     public void updateUserStatus(int userId){
         User findUser = userRepository.findOne(userId);
-//        findUser.changeUserStatus();
+        findUser.deleteUserStatus();
     }
 }

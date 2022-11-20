@@ -38,4 +38,11 @@ public class UserRepository {
             return false;
         }
     }
+
+    // 로그인: 해당 email에 해당되는 user의 암호화된 비밀번호 값을 가져온다.
+    public User getUserByEmail(String email){
+        return em.createQuery("select u from User u where u.userEmail = :email", User.class)
+                .setParameter("email", email)
+                .getSingleResult();
+    }
 }

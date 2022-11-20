@@ -53,7 +53,7 @@ public class User {
         this.userImg = userImg;
     }
 
-    public void changeUserStatus(UserStatus userStatus){
-        this.status = userStatus;
+    public void deleteUserStatus(){
+        this.status = UserStatus.INACTIVE;
     }
 }
