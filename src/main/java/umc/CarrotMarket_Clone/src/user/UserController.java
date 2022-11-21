@@ -78,7 +78,7 @@ public class UserController {
     @PatchMapping("/{userId}")
     public BaseResponse<String> updateUser(@PathVariable int userId, @RequestBody PatchUserInfoReq patchUserInfoReq){
         try{
-            int userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출
+            int userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출 => 올바르지 않으면 에러 발생시킴
 
             if(userId != userIdByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
@@ -99,7 +99,7 @@ public class UserController {
     @PatchMapping("/{userId}/status")
     public BaseResponse<String> updateUser(@PathVariable int userId){
         try{
-            int userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출
+            int userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출  => 올바르지 않으면 에러 발생시킴
 
             if(userId != userIdByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
