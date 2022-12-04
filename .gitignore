@@ -28,6 +28,9 @@ out/
 application.yml
 secret/
 
+# secret 폴더 무시
+secret/
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
