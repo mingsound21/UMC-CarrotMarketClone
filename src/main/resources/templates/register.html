@@ -80,6 +80,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
 <script>
+            // URL 기본 설정
+            axios.defaults.baseURL = "https://mingsound.shop";
+            const mainPageURL = "https://mingsound.shop";
+
             const $createUserBtn = document.querySelector(".createUserBtn");
 
             const username = document.querySelector("#inputUserName").value;
@@ -92,7 +96,7 @@
                 const email = document.querySelector("#inputEmail").value;
                 const password = document.querySelector("#inputPassword").value;
 
-                axios.post("http://localhost:8090/users/sign-up",{
+                axios.post("/users/sign-up",{
                     "userName" : username,
                     "userEmail" : email,
                     "password" : password
@@ -103,7 +107,7 @@
                         const userId = response.data.result.userId;
                         localStorage.setItem("accessToken", accessToken);
                         localStorage.setItem("userId", userId);
-                        location.href = "http://localhost:8090";
+                        location.href = mainPageURL;
                     }
                     alert(response.data.message);
 

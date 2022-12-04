@@ -34,7 +34,7 @@
                 <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="http://localhost:8090/register">Register</a></li>
                 <li><a class="dropdown-item" href="http://localhost:8090/login">Login</a></li>
-                <li><a class="dropdown-item logoutBtn" href="http://localhost:8090/">Logout</a></li>
+                <li><a class="dropdown-item logoutBtn" href="http://localhost:8090">Logout</a></li>
             </ul>
         </li>
     </ul>
@@ -168,10 +168,11 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 <script>
+            axios.defaults.baseURL = "https://mingsound.shop";
             // 회원 조회
             const $tbody = document.querySelector("tbody");
 
-            axios.get('http://localhost:8090/users')
+            axios.get('/users')
             .then(response => {
                 const userArray = response.data.result;
 

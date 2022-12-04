@@ -180,16 +180,15 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <!--        <script src="js/datatables-simple-demo.js"></script>-->
 <script>
+            // 기본 URL 설정
+            axios.defaults.baseURL = "https://mingsound.shop";
+
             const $showUserName = document.querySelector(".showUserName");
 
             const accessToken = localStorage.getItem("accessToken");
             if(accessToken != null){ // 로그인 함
                 const userId = localStorage.getItem("userId");
-                axios.get(`http://localhost:8090/users/${userId}`,{
-                    headers: {
-                    "X-ACCESS-TOKEN" : `Bearer ${accessToken}`
-                    }
-                }).then(response => {
+                axios.get(`/users/${userId}`).then(response => {
                     const isSuccess = response.data.isSuccess;
 
                     if(isSuccess){ // 유저 정보 가져오기 성공
