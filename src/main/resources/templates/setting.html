@@ -100,22 +100,27 @@
             }
 
 
-            // 처음에 기존 데이터로 채워넣기
-            const userId = localStorage.getItem("userId");
-            const currentData = axios.get(`/${userId}`)
-                                .then(response => {
-                                    const username = document.querySelector("#inputUserName");
-                                    const userEmail = document.querySelector("#inputEmail");
-                                    username.value = response.data.result.userName;
-                                    userEmail.value = response.data.result.userEmail;
-                                });
 
+            // 처음에 기존 데이터 가져오기
+            let currentData;
+            const userId = localStorage.getItem("userId");
+            axios.get(`/${userId}`)
+                .then(response => {
+                    currentData = response.data.result;
+            });
+            console.log(currentData); // 출력 테스트
 
             // 수정
             const $updateBtn = document.querySelector(".updateBtn");
             $updateBtn.addEventListener("click", (event) => {
                 const username = document.querySelector("#inputUserName").value;
                 const userEmail = document.querySelector("#inputEmail").value;
+
+                // 값 확인
+                if(username == "" && userEmail==""){
+                    alert("값을 입력해주세요");
+                }
+
                 axios.patch("/users",{
                     "userName" : username,
                     "userEmail" : userEmail
