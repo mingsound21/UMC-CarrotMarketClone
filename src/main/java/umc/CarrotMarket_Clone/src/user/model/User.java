@@ -3,6 +3,8 @@ package umc.CarrotMarket_Clone.src.user.model;
 
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.CarrotMarket_Clone.src.post.model.Post;
 
 import javax.persistence.*;
@@ -14,6 +16,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user")
+@DynamicInsert // insert, update시 null인 field 제외 => mysql에서 설정한 default 값 들어가도록
+@DynamicUpdate
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
