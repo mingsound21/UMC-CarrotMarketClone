@@ -26,6 +26,7 @@ public class PostUserReq {
                 .userEmail(userEmail)
                 .userImg(userImg)
                 .password(password)
+                .status(UserStatus.ACTIVE)
                 .build();
     }
 }

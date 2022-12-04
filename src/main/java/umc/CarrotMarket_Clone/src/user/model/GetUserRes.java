@@ -14,7 +14,7 @@ public class GetUserRes {
 
     public GetUserRes(User entity){
         this.userId = entity.getUserId();
-        this.userEmail = entity.getUserName();
+        this.userEmail = entity.getUserEmail();
         this.userName = entity.getUserName();
         this.userImg = entity.getUserImg();
     }

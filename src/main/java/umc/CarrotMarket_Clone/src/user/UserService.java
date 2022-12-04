@@ -10,7 +10,9 @@ import umc.CarrotMarket_Clone.utils.AES128;
 import umc.CarrotMarket_Clone.utils.JwtService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static umc.CarrotMarket_Clone.config.BaseResponseStatus.*;
 
@@ -20,6 +22,7 @@ import static umc.CarrotMarket_Clone.config.BaseResponseStatus.*;
 public class UserService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private Map<String, String> refreshTokens = new HashMap<>(); // 보통은 DB에 저장한다고 함. 지금은 그냥 map에...
 
     /**
      * 모든 유저 조회
@@ -30,7 +33,6 @@ public class UserService {
         for (User findUser : findUsers) {
             result.add(new GetUserRes(findUser));
         }
-        System.out.println(result);
         return result;
     }
 
@@ -94,6 +96,31 @@ public class UserService {
         }else{// 비밀번호가 다르다면 에러메세지를 출력한다.
             throw new BaseException(FAILED_TO_LOGIN);
         }
+    }
+
+    /**
+     * 로그인 유지 확인
+     */
+    public Boolean checkLoginStatus(){
+        try{
+            return jwtService.validateAccessToken();
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    /**
+     * 리프레쉬 토큰 저장
+     */
+    public void saveRefreshToken(String email, String refreshToken){
+        refreshTokens.put(email, refreshToken);
+    }
+
+    /**
+     * 리프레쉬 토큰 얻기
+     */
+    public String getRefreshToken(String email){
+        return refreshTokens.get(email);
     }
 
     /**

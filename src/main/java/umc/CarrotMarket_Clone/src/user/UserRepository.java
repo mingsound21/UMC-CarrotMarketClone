@@ -3,6 +3,7 @@ package umc.CarrotMarket_Clone.src.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import umc.CarrotMarket_Clone.src.user.model.User;
+import umc.CarrotMarket_Clone.src.user.model.UserStatus;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -23,7 +24,8 @@ public class UserRepository {
     }
 
     public List<User> findAll(){
-        return em.createQuery("select u from User u", User.class)
+        return em.createQuery("select u from User u where u.status IS NULL or u.status = :status", User.class)
+                .setParameter("status", UserStatus.ACTIVE)
                 .getResultList();
     }
 

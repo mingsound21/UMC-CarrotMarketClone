@@ -1,9 +1,7 @@
 package umc.CarrotMarket_Clone.src.user;
 
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import umc.CarrotMarket_Clone.config.BaseException;
 import umc.CarrotMarket_Clone.config.BaseResponse;
@@ -18,6 +16,7 @@ import static umc.CarrotMarket_Clone.config.BaseResponseStatus.INVALID_USER_JWT;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*") // 일단 그냥 써봄 아무 지식 없이
 public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
@@ -73,18 +72,27 @@ public class UserController {
     }
 
     /**
+     * 로그인 유지 확인
+     */
+    @PostMapping("/log-in/expiration")
+    public BaseResponse<PostLoginValidateRes> checkLoginStatus(){
+        Boolean result = userService.checkLoginStatus();
+        return new BaseResponse<>(new PostLoginValidateRes(result));
+    }
+
+    /**
      * 유저 정보 수정
      */
-    @PatchMapping("/{userId}")
-    public BaseResponse<String> updateUser(@PathVariable int userId, @RequestBody PatchUserInfoReq patchUserInfoReq){
+    @PatchMapping("")
+    public BaseResponse<String> updateUser(@RequestBody PatchUserInfoReq patchUserInfoReq){
         try{
             int userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출 => 올바르지 않으면 에러 발생시킴
 
-            if(userId != userIdByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
+//            if(userId != userIdByJwt){
+//                return new BaseResponse<>(INVALID_USER_JWT);
+//            }
 
-            userService.updateUser(userId, patchUserInfoReq);
+            userService.updateUser(userIdByJwt, patchUserInfoReq);
             String result = "회원정보가 수정되었습니다.";
             return new BaseResponse<>(result);
 
@@ -96,16 +104,12 @@ public class UserController {
     /**
      * 유저 상태 변경(삭제)
      */
-    @PatchMapping("/{userId}/status")
-    public BaseResponse<String> updateUser(@PathVariable int userId){
+    @PatchMapping("/status")
+    public BaseResponse<String> updateUser(){
         try{
             int userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출  => 올바르지 않으면 에러 발생시킴
 
-            if(userId != userIdByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
-
-            userService.updateUserStatus(userId);
+            userService.updateUserStatus(userIdByJwt);
             String result = "회원이 정상적으로 삭제되었습니다.";
             return new BaseResponse<>(result);
 
