@@ -113,7 +113,7 @@
                     }
                 }).then(response => {
                     alert(response.data.result.result);
-
+                    console.log(response);
                     const isSuccess = response.data.result.isSuccess;
                     if(isSuccess){ // 요청 성공시 메인 페이지로
                         location.href = mainPageURL;
@@ -135,11 +135,7 @@
                     localStorage.removeItem("userId");
 
                     alert(response.data.result.result);
-
-                    const isSuccess = response.data.result.isSuccess;
-                    if(isSuccess){ // 요청 성공시 메인 페이지로
-                        location.href = mainPageURL;
-                    }
+                    location.href = mainPageURL;
                 });
             })
 
