@@ -84,11 +84,15 @@
             axios.defaults.baseURL = "https://mingsound.shop";
             const mainPageURL = "https://mingsound.shop";
 
-            const $createUserBtn = document.querySelector(".createUserBtn");
+            // 이미 로그인한 사용자 alert
+            const accessToken = localStorage.getItem("accessToken");
+            if(accessToken != null){
+                alert("이미 로그인한 사용자입니다.");
+                location.href = mainPageURL;
+            }
 
-            const username = document.querySelector("#inputUserName").value;
-            const email = document.querySelector("#inputEmail").value;
-            const password = document.querySelector("#inputPassword").value;
+            // 회원 가입
+            const $createUserBtn = document.querySelector(".createUserBtn");
 
             $createUserBtn.addEventListener("click", (event) => {
                 event.preventDefault();
@@ -96,22 +100,26 @@
                 const email = document.querySelector("#inputEmail").value;
                 const password = document.querySelector("#inputPassword").value;
 
-                axios.post("/users/sign-up",{
-                    "userName" : username,
-                    "userEmail" : email,
-                    "password" : password
-                }).then(response => {
-                    const isSuccess = response.data.isSuccess;
-                    if(isSuccess){
-                        const accessToken = response.data.result.jwt;
-                        const userId = response.data.result.userId;
-                        localStorage.setItem("accessToken", accessToken);
-                        localStorage.setItem("userId", userId);
-                        location.href = mainPageURL;
-                    }
-                    alert(response.data.message);
+                if(username == "" || email == "" || password == ""){
+                    alert("모든 값을 입력해주세요!");
+                }else{
+                    axios.post("/users/sign-up",{
+                        "userName" : username,
+                        "userEmail" : email,
+                        "password" : password
+                    }).then(response => {
+                        const isSuccess = response.data.isSuccess;
+                        if(isSuccess){
+                            const accessToken = response.data.result.jwt;
+                            const userId = response.data.result.userId;
+                            localStorage.setItem("accessToken", accessToken);
+                            localStorage.setItem("userId", userId);
+                            location.href = mainPageURL;
+                        }
+                        alert(response.data.message);
 
-                });
+                    });
+                }
             })
 
         </script>
