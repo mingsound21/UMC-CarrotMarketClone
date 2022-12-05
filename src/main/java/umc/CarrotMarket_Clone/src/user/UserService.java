@@ -78,8 +78,15 @@ public class UserService {
      */
     @Transactional
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
-        User loginUser = userRepository.getUserByEmail(postLoginReq.getUserEmail());
+        User loginUser;
+        try{
+            loginUser = userRepository.getUserByEmail(postLoginReq.getUserEmail());
+        }catch (BaseException e){
+            throw new BaseException(POST_USERS_WRONG_EMAIL);
+        }
+
         String password = loginUser.getPassword();
+
 
         // 비번 확인
         try{
@@ -101,11 +108,12 @@ public class UserService {
     /**
      * 로그인 유지 확인
      */
-    public Boolean checkLoginStatus(){
+    public Boolean checkLoginStatus() throws BaseException{
         try{
-            return jwtService.validateAccessToken();
-        }catch (Exception e){
-            return false;
+            Boolean result = jwtService.validateAccessToken();
+            return result;
+        }catch (Exception e) {
+            throw new BaseException(EXPIRED_JWT);
         }
     }
 

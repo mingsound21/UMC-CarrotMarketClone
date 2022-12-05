@@ -2,11 +2,14 @@ package umc.CarrotMarket_Clone.src.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import umc.CarrotMarket_Clone.config.BaseException;
 import umc.CarrotMarket_Clone.src.user.model.User;
 import umc.CarrotMarket_Clone.src.user.model.UserStatus;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+
+import static umc.CarrotMarket_Clone.config.BaseResponseStatus.POST_USERS_WRONG_EMAIL;
 
 @Repository
 @RequiredArgsConstructor
@@ -42,9 +45,17 @@ public class UserRepository {
     }
 
     // 로그인: 해당 email에 해당되는 user의 암호화된 비밀번호 값을 가져온다.
-    public User getUserByEmail(String email){
-        return em.createQuery("select u from User u where u.userEmail = :email", User.class)
-                .setParameter("email", email)
-                .getSingleResult();
+    public User getUserByEmail(String email) throws BaseException{
+        try{
+            return em.createQuery("select u from User u where u.userEmail = :email", User.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        }catch (Exception e){
+            throw new BaseException(POST_USERS_WRONG_EMAIL);
+        }
+
+
+
+
     }
 }

@@ -11,6 +11,7 @@ import umc.CarrotMarket_Clone.utils.JwtService;
 
 import java.util.List;
 
+import static umc.CarrotMarket_Clone.config.BaseResponseStatus.EXPIRED_JWT;
 import static umc.CarrotMarket_Clone.config.BaseResponseStatus.INVALID_USER_JWT;
 
 @RestController
@@ -76,8 +77,12 @@ public class UserController {
      */
     @PostMapping("/log-in/expiration")
     public BaseResponse<PostLoginValidateRes> checkLoginStatus(){
-        Boolean result = userService.checkLoginStatus();
-        return new BaseResponse<>(new PostLoginValidateRes(result));
+        try{
+            Boolean result = userService.checkLoginStatus();
+            return new BaseResponse<>(new PostLoginValidateRes(result));
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
     }
 
     /**

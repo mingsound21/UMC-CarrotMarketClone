@@ -183,9 +183,26 @@
             // 기본 URL 설정
             axios.defaults.baseURL = "https://mingsound.shop";
 
+            // 아직 유효한 jwt인지 확인
+            const accessToken = localStorage.getItem("accessToken");
+
+            axios.post("/users/log-in/expiration",{
+            },{
+                headers: {
+                    Authorization : accessToken
+                }
+            }).then(response => {
+                const isSuccess = response.data.isSuccess;
+                if(!isSuccess){
+                    // localStorage에서 유저 정보 삭제
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("userId");
+                }
+            })
+
+            // 유효하다면 유저 정보 보이기
             const $showUserName = document.querySelector(".showUserName");
 
-            const accessToken = localStorage.getItem("accessToken");
             if(accessToken != null){ // 로그인 함
                 const userId = localStorage.getItem("userId");
                 axios.get(`/users/${userId}`).then(response => {

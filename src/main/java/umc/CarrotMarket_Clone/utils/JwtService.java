@@ -115,8 +115,8 @@ public class JwtService {
     }
 
 
-    /* 토큰 유효기간 확인 - 근석 오빠거 참고*/
-    public boolean validateAccessToken() {
+    /* 토큰 유효기간 확인*/
+    public boolean validateAccessToken() throws Exception{
         String accessToke = getJwt();
         boolean expiration = Jwts.parser()
                 .setSigningKey(Secret.JWT_SECRET_KEY)
