@@ -137,7 +137,24 @@ public class UserService {
     @Transactional
     public void updateUser(int userId, PatchUserInfoReq patchUserInfoReq){
         User findUser = userRepository.findOne(userId); // 영속상태
-        findUser.changeUserInfo(patchUserInfoReq.getUserName(), patchUserInfoReq.getUserEmail(), patchUserInfoReq.getUserImg()); // 변경 감지(dirty checking)
+
+        User currentUser = userRepository.findOne(userId);
+
+        String userEmail, userName;
+        userEmail = patchUserInfoReq.getUserEmail();
+        userName = patchUserInfoReq.getUserName();
+
+        if(userEmail == null){
+            System.out.println("yes null");
+        }
+
+        if(patchUserInfoReq.getUserEmail().equals("")){ // 빈 값 체크인지 null 체크인지 모르겠음
+            userEmail = currentUser.getUserEmail();
+        }else if(patchUserInfoReq.getUserName().equals("")){
+            userName = currentUser.getUserName();
+        }
+
+        findUser.changeUserInfo(userName, userEmail, patchUserInfoReq.getUserImg()); // 변경 감지(dirty checking)
     }
 
     /**

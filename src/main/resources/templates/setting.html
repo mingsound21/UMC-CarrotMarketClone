@@ -117,25 +117,25 @@
                 const userEmail = document.querySelector("#inputEmail").value;
 
                 // 값 확인
-                if(username == "" || userEmail==""){
+                if(username == "" && userEmail==""){
                     alert("값을 입력해주세요");
+                }else{
+                    axios.patch("/users",{
+                        "userName" : username,
+                        "userEmail" : userEmail
+                    },{
+                        headers: {
+                            Authorization : accessToken
+                        }
+                    }).then(response => {
+                        alert(response.data.result);
+                        console.log(response);
+                        const isSuccess = response.data.isSuccess;
+                        if(isSuccess){ // 요청 성공시 메인 페이지로
+                            location.href = mainPageURL;
+                        }
+                    });
                 }
-
-                axios.patch("/users",{
-                    "userName" : username,
-                    "userEmail" : userEmail
-                },{
-                    headers: {
-                        Authorization : accessToken
-                    }
-                }).then(response => {
-                    alert(response.data.result);
-                    console.log(response);
-                    const isSuccess = response.data.isSuccess;
-                    if(isSuccess){ // 요청 성공시 메인 페이지로
-                        location.href = mainPageURL;
-                    }
-                });
             })
 
             // 삭제
