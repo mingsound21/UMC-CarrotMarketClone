@@ -46,7 +46,7 @@ public class UserController {
     @PostMapping("/sign-up")
     public BaseResponse<PostUserRes> join(@RequestBody PostUserReq postUserReq){
         // 이메일 null 체크
-        if(postUserReq.getUserEmail() == null){
+        if(postUserReq.getUserEmail().equals("")){ // null 체크에서 빈 값체크로 변경
             return new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_EMAIL);
         }
 

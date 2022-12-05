@@ -144,10 +144,6 @@ public class UserService {
         userEmail = patchUserInfoReq.getUserEmail();
         userName = patchUserInfoReq.getUserName();
 
-        if(userEmail == null){
-            System.out.println("yes null");
-        }
-
         if(patchUserInfoReq.getUserEmail().equals("")){ // 빈 값 체크인지 null 체크인지 모르겠음
             userEmail = currentUser.getUserEmail();
         }else if(patchUserInfoReq.getUserName().equals("")){
