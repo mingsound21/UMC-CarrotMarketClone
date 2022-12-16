@@ -2,6 +2,8 @@ package umc.CarrotMarket_Clone.src.board;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.CarrotMarket_Clone.config.BaseException;
@@ -53,6 +55,15 @@ public class BoardService {
         List<GetBoardRes> result = findAll.stream().map(board -> new GetBoardRes(board)).collect(Collectors.toList());
         return result;
     }
+
+    // 모든 게시물 조회 - 페이징
+    @Transactional(readOnly = true)
+    public Slice<GetBoardRes> getAll(Pageable pageable){
+        Slice<Board> findAll = boardRepository.findAllBy(pageable);
+        Slice<GetBoardRes> result = findAll.map(GetBoardRes::new);
+        return result;
+    }
+
     
     @Transactional(readOnly = true)
     public GetBoardRes getOne(Long boardId)throws BaseException{

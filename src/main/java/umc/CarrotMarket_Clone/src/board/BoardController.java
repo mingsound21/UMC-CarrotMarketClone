@@ -2,6 +2,7 @@ package umc.CarrotMarket_Clone.src.board;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 import umc.CarrotMarket_Clone.config.BaseException;
 import umc.CarrotMarket_Clone.config.BaseResponse;
@@ -33,8 +34,9 @@ public class BoardController {
      * 조회
      */
     @GetMapping("")
-    public BaseResponse<List<GetBoardRes>> getBoards(){
-        List<GetBoardRes> result = boardService.getAll();
+    public BaseResponse<Slice<GetBoardRes>> getBoards(Pageable pageable){
+//        List<GetBoardRes> result = boardService.getAll();
+        Slice<GetBoardRes> result = boardService.getAll(pageable);
         return new BaseResponse<>(result);
     }
 
