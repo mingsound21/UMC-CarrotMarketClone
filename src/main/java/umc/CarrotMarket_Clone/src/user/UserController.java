@@ -35,7 +35,7 @@ public class UserController {
      * 유저 1명 조회
      */
     @GetMapping("/{userId}")
-    public BaseResponse<GetUserRes> getUser(@PathVariable int userId){
+    public BaseResponse<GetUserRes> getUser(@PathVariable Long userId){
         GetUserRes user = userService.findOne(userId);
         return new BaseResponse<>(user);
     }
@@ -91,7 +91,7 @@ public class UserController {
     @PatchMapping("")
     public BaseResponse<String> updateUser(@RequestBody PatchUserInfoReq patchUserInfoReq){
         try{
-            int userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출 => 올바르지 않으면 에러 발생시킴
+            Long userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출 => 올바르지 않으면 에러 발생시킴
 
 //            if(userId != userIdByJwt){
 //                return new BaseResponse<>(INVALID_USER_JWT);
@@ -112,7 +112,7 @@ public class UserController {
     @PatchMapping("/status")
     public BaseResponse<String> updateUser(){
         try{
-            int userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출  => 올바르지 않으면 에러 발생시킴
+            Long userIdByJwt = jwtService.getUserIdx(); // jwt에서 userId 추출  => 올바르지 않으면 에러 발생시킴
 
             userService.updateUserStatus(userIdByJwt);
             String result = "회원이 정상적으로 삭제되었습니다.";

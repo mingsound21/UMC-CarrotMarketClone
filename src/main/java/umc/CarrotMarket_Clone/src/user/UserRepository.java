@@ -16,7 +16,7 @@ import static umc.CarrotMarket_Clone.config.BaseResponseStatus.POST_USERS_WRONG_
 public class UserRepository {
 
     private final EntityManager em;
-
+/*
     public int save(User user){
         em.persist(user);
         return user.getUserId();
@@ -31,7 +31,11 @@ public class UserRepository {
                 .setParameter("status", UserStatus.ACTIVE)
                 .getResultList();
     }
+*/
 
+    /**
+     * 아래 2개는 spring data jpa 사용해서 어떻게 바꾸지
+     */
     public boolean validateDupliacateEmail(String email){
         List<User> findSameEmailUser = em.createQuery("select u from User u where u.userEmail = :email", User.class)
                 .setParameter("email", email)
@@ -53,9 +57,5 @@ public class UserRepository {
         }catch (Exception e){
             throw new BaseException(POST_USERS_WRONG_EMAIL);
         }
-
-
-
-
     }
 }

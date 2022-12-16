@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GetUserRes {
-    private int userId;
+    private Long userId;
     private String userEmail;
     private String userName;
     private String userImg;

@@ -21,6 +21,7 @@ import static umc.CarrotMarket_Clone.config.BaseResponseStatus.*;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserSpringDataRepository userSpringDataRepository;
     private final JwtService jwtService;
     private Map<String, String> refreshTokens = new HashMap<>(); // 보통은 DB에 저장한다고 함. 지금은 그냥 map에...
 
@@ -28,7 +29,7 @@ public class UserService {
      * 모든 유저 조회
      */
     public List<GetUserRes> findAll(){
-        List<User> findUsers = userRepository.findAll();
+        List<User> findUsers = userSpringDataRepository.findAll();
         List<GetUserRes> result = new ArrayList<>();
         for (User findUser : findUsers) {
             result.add(new GetUserRes(findUser));
@@ -39,8 +40,8 @@ public class UserService {
     /**
      * 유저 1명 조회
      */
-    public GetUserRes findOne(int userId){
-        return new GetUserRes(userRepository.findOne(userId));
+    public GetUserRes findOne(Long userId){
+        return new GetUserRes(userSpringDataRepository.findByUserId(userId));
     }
 
     /**
@@ -64,7 +65,8 @@ public class UserService {
 
         // jwt
         try{
-            int userIdx = userRepository.save(postUserReq.toEntity()); // DB에 유저 넣기
+            User savedUser = userSpringDataRepository.save(postUserReq.toEntity());
+            Long userIdx = savedUser.getUserId(); // DB에 유저 넣기
             String jwt = jwtService.createJwt(userIdx); // jwt 생성
             return new PostUserRes(jwt, userIdx);
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
@@ -97,7 +99,7 @@ public class UserService {
 
         // 비번 일치 확인 후, jwt 값 생성
         if(postLoginReq.getPassword().equals(password)){
-            int userIdx = loginUser.getUserId();
+            Long userIdx = loginUser.getUserId();
             String jwt = jwtService.createJwt(userIdx);
             return new PostLoginRes(userIdx, jwt);
         }else{// 비밀번호가 다르다면 에러메세지를 출력한다.
@@ -135,10 +137,10 @@ public class UserService {
      * 유저 정보 수정
      */
     @Transactional
-    public void updateUser(int userId, PatchUserInfoReq patchUserInfoReq){
-        User findUser = userRepository.findOne(userId); // 영속상태
+    public void updateUser(Long userId, PatchUserInfoReq patchUserInfoReq){
+        User findUser = userSpringDataRepository.findByUserId(userId); // 영속상태
 
-        User currentUser = userRepository.findOne(userId);
+        User currentUser = userSpringDataRepository.findByUserId(userId);
 
         String userEmail, userName;
         userEmail = patchUserInfoReq.getUserEmail();
@@ -157,8 +159,8 @@ public class UserService {
      * 유저 상태 변경 = 삭제
      */
     @Transactional
-    public void updateUserStatus(int userId){
-        User findUser = userRepository.findOne(userId);
+    public void updateUserStatus(Long userId){
+        User findUser = userSpringDataRepository.findByUserId(userId);
         findUser.deleteUserStatus();
     }
 }

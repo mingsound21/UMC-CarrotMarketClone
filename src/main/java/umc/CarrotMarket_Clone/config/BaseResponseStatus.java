@@ -28,6 +28,8 @@ public enum BaseResponseStatus {
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
     POST_USERS_WRONG_EMAIL(false, 2018, "해당 이메일을 찾을 수 없습니다."),
 
+    // [GET] /users
+    FAIL_FIND_USER(false, 2019, "해당 이름의 유저가 없습니다."),
 
     /**
      * 3000 : Response 오류
@@ -53,6 +55,8 @@ public enum BaseResponseStatus {
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
+    // [Get] /boards/{boardId}
+    FAIL_FIND_BOARD(false, 5000, "해당 게시물을 찾을 수 없습니다."),
 
     // [PATCH] /posts/status/{postId}
     MODIFY_FAIL_POST_STATUS(false, 5001, "게시물 삭제 실패"),

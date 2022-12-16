@@ -5,6 +5,7 @@ package umc.CarrotMarket_Clone.src.user.model;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import umc.CarrotMarket_Clone.src.common.BaseTimeEntity;
 import umc.CarrotMarket_Clone.src.post.model.Post;
 
 import javax.persistence.*;
@@ -12,18 +13,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user")
 @DynamicInsert // insert, update시 null인 field 제외 => mysql에서 설정한 default 값 들어가도록
 @DynamicUpdate
-public class User {
+public class User extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
-
+    private Long userId;
+/*
     @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
+*/
 
     private String userEmail;
     private String userName;
@@ -34,11 +37,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     @Builder
-    public User(int userId, String userEmail, String userName, String userImg, String password, Double temperature, UserStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(Long userId, String userEmail, String userName, String userImg, String password, Double temperature, UserStatus status) {
         this.userId = userId;
         this.userEmail = userEmail;
         this.userName = userName;
@@ -46,8 +47,6 @@ public class User {
         this.password = password;
         this.temperature = temperature;
         this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public void changeUserInfo(String username, String userEmail, String userImg){

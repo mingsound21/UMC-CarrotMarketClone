@@ -24,7 +24,7 @@ public class JwtService {
     @param userIdx
     @return String
      */
-    public String createJwt(int userIdx){
+    public String createJwt(Long userIdx){
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam("type","jwt")
@@ -38,7 +38,7 @@ public class JwtService {
     /**
      * jwt refresh 토큰 생성
      */
-    public String createRefreshToken(int userIdx) {
+    public String createRefreshToken(Long userIdx) {
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam("type","jwt")
@@ -61,7 +61,7 @@ public class JwtService {
             Jws<Claims> claims = Jwts.parser().setSigningKey(Secret.JWT_REFRESH_SECRET_KEY).parseClaimsJws(refreshToken);
 //refresh 토큰의 만료시간이 지나지 않았을 경우, 새로운 access 토큰을 생성합니다.
             if (!claims.getBody().getExpiration().before(new Date())) {
-                return createJwt(claims.getBody().get("userIdx", Integer.class));
+                return createJwt(claims.getBody().get("userIdx", Long.class));
             }
         }catch (Exception e){
             return null;
@@ -92,7 +92,7 @@ public class JwtService {
     @return int
     @throws BaseException
      */
-    public int getUserIdx() throws BaseException {
+    public Long getUserIdx() throws BaseException {
         //1. JWT 추출
         String accessToken = getJwt();
         System.out.println("accessToken = " + accessToken);
@@ -111,7 +111,7 @@ public class JwtService {
         }
 
         // 3. userIdx 추출
-        return claims.getBody().get("userIdx",Integer.class);  // jwt 에서 userIdx를 추출합니다.
+        return claims.getBody().get("userIdx",Long.class);  // jwt 에서 userIdx를 추출합니다.
     }
 
 
