@@ -10,6 +10,8 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+/* 기본적으로 있던 거 */
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -234,13 +236,20 @@ sup {
   top: -0.5em;
 }
 
-a {
+/* a태그 기본 속성 내가 변경*/
+/* a {
   color: #0d6efd;
   text-decoration: underline;
 }
 a:hover {
   color: #0a58ca;
+} */
+
+a {
+  color: black;
+  text-decoration: none;
 }
+
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
   color: inherit;
