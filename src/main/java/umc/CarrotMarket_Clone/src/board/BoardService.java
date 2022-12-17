@@ -79,12 +79,12 @@ public class BoardService {
         Board board = findOne.orElseThrow(() -> new BaseException(FAIL_FIND_BOARD));
 
         String newTitle = patchBoardReq.getBoardTitle();
-        if(newTitle == null){
+        if(newTitle == null || newTitle.equals("")){
             newTitle = board.getBoardTitle();
         }
 
         String newContent = patchBoardReq.getBoardContent();
-        if(newContent == null){
+        if(newContent == null ||  newContent.equals("")){
             newContent = board.getBoardContent();
         }
 
