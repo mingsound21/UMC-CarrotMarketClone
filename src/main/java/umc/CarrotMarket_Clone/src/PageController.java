@@ -46,9 +46,24 @@ public class PageController {
         return "register";
     }
 
-    @RequestMapping(value = "/setting")
-    public String setting(){
-        return "setting";
+    @RequestMapping(value = "/board")
+    public String board(){
+        return "board";
+    }
+
+    @RequestMapping(value = "/boardDetail")
+    public String boardDetail(){
+        return "boardDetail";
+    }
+
+    @RequestMapping(value = "/boardUpdate")
+    public String boardUpdate(){
+        return "boardUpdate";
+    }
+
+    @RequestMapping(value = "/boardWrite")
+    public String boardWrite(){
+        return "boardWrite";
     }
 
 
