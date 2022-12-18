@@ -21,6 +21,8 @@ public class Board extends BaseTimeEntity {
     private String boardTitle;
     private String boardContent;
 
+    private String boardImg;
+
     @Enumerated(EnumType.STRING)
     private BoardStatus status;
 
@@ -29,11 +31,12 @@ public class Board extends BaseTimeEntity {
     private User writer; // 필드 이름은 맘대로 해도 되나?
 
     @Builder
-    public Board(String title, String content, User writer) {
+    public Board(String title, String content, User writer, String boardImg) {
         this.boardTitle = title;
         this.boardContent = content;
         this.status = BoardStatus.ACTIVE;
         this.writer = writer;
+        this.boardImg = boardImg;
     }
 
     public void update(String title, String content){

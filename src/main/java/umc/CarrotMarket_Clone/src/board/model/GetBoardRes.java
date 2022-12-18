@@ -15,6 +15,7 @@ public class GetBoardRes {
     private String writerName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String imageName;
 
     public GetBoardRes(Board board){
         boardId = board.getBoardId();
@@ -23,5 +24,6 @@ public class GetBoardRes {
         writerName = board.getWriter().getUserName();
         createdAt = board.getCreatedAt();
         updatedAt = board.getUpdatedAt();
+        imageName = board.getBoardImg();
     }
 }

@@ -27,7 +27,7 @@ public class BoardService {
     private final UserSpringDataRepository userSpringDataRepository;
 
     // 생성
-    public PostBoardRes create(PostBoardReq postBoardReq) throws BaseException {
+    public PostBoardRes create(PostBoardReq postBoardReq, String fileName) throws BaseException {
         List<User> userList = userSpringDataRepository.findByUserName(postBoardReq.getWriterName());// 일단 유저 이름을 받기로 함
         if(userList.size() == 0){ // 비어있으면
             throw new BaseException(FAIL_FIND_USER);
@@ -39,6 +39,7 @@ public class BoardService {
                 .title(postBoardReq.getBoardTitle())
                 .content(postBoardReq.getBoardContent())
                 .writer(user)
+                .boardImg(fileName)
                 .build();
         System.out.println("board title = " + newBoard.getBoardTitle());
         System.out.println("board content = " + newBoard.getBoardContent());

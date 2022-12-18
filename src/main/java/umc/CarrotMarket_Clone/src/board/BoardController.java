@@ -1,13 +1,20 @@
 package umc.CarrotMarket_Clone.src.board;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import umc.CarrotMarket_Clone.config.BaseException;
 import umc.CarrotMarket_Clone.config.BaseResponse;
 import umc.CarrotMarket_Clone.src.board.model.*;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -16,13 +23,27 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final FileService fileService;
     /**
      * 생성
      */
     @PostMapping("")
-    public BaseResponse<PostBoardRes> create(@RequestBody PostBoardReq postBoardReq){
+    public BaseResponse<PostBoardRes> create(
+            @RequestPart(value = "postBoardReq") PostBoardReq postBoardReq,
+            @RequestPart(value = "boardImg") MultipartFile multipartFile){
+        String fileName = "";
+        if(!multipartFile.getOriginalFilename().equals("")){
+            // 파일 업로드
+            try{
+                fileName = fileService.fileUpload(multipartFile);
+            }catch (BaseException e){
+                return new BaseResponse<>(e.getStatus());
+            }
+        }
+
+        // 저장
         try{
-            PostBoardRes postBoardRes = boardService.create(postBoardReq);
+            PostBoardRes postBoardRes = boardService.create(postBoardReq, fileName);
             return new BaseResponse<>(postBoardRes);
         }catch (BaseException e){
             return new BaseResponse<>(e.getStatus());
@@ -55,6 +76,18 @@ public class BoardController {
 
     }
 
+    /**
+     * 이미지 조회, 이미지 자체를 보냄
+     */
+    @GetMapping("/images/{fileName}")
+    public ResponseEntity<Resource> showImage(@PathVariable String fileName){
+        try{
+            return fileService.fileShow(fileName);
+
+        }catch (BaseException e){
+            return null; // 일단 null로 처리
+        }
+    }
 
 
     /**
