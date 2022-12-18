@@ -183,20 +183,40 @@
         const $boardImage = document.querySelector(".boardImage");
         const $boardWriter = document.querySelector("#boardWriter");
 
-        const $submitBtn = document.querySelector("·submitBtn");
+        const $submitBtn = document.querySelector(".submitBtn");
+
+        
 
         $submitBtn.addEventListener("click", (event) => {
             const title = $boardTitleInput.value;
             const content = $boardContentInput.value;
             const writer = $boardWriter.value;
 
+            
+
             if(title=='' || content == "" || writer == ""){
                 alert("제목, 내용, 작성자 중 작성하지 않은 내용이 있습니다.");
             }else{
-                axios.post("",{
-                    "postTitle" : title,
-                    "postContent" : content,
+                const jsonData = `
+                {
+                    "boardTitle" : title,
+                    "boardContent" : content,
                     "writerName" : writer
+                }
+                `;
+                const boardImage = $boardImage.files[0];
+
+                const formData = new FormData();
+                formData.append("postBoardReq", jsonData);
+                if(boardImage != undefined){
+                    formData.append("boardImg", $boardImage.files[0]);
+                }
+                
+
+                axios.post("", formData, {
+                    headers : {
+                        'Content-Type' : 'multipart/form-data'
+                    }
                 })
                 .then(response => {
                     const isSuccess = response.data.isSuccess;

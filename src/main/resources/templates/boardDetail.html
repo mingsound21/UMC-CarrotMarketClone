@@ -138,7 +138,7 @@
                     
                     <h5 class="mt-4 boardTitle" style="margin-bottom: 30px;">게시물 제목</h5>
                     <div class="mt-4 boardWriter" style="margin-bottom: 30px;">작성자 : 누구누구</div>
-                    <img src="image/skyblue_bgImg.jpg" class="rounded" alt="..." style="width : 50%; margin-bottom: 30px;">
+                    <img src="image/skyblue_bgImg.jpg" class="rounded boardImage" alt="..." style="width : 50%; margin-bottom: 30px;">
                     <div class="boardContent" style="margin-bottom: 30px;">게시물 내용 어쩌구 저쩌구</div>
 
                     <button type="button" class="btn btn-danger deleteBtn">삭제</button>
@@ -173,6 +173,7 @@
         const $boardTitle = document.querySelector('.boardTitle');
         const $boardWriter = document.querySelector(".boardWriter");
         const $boardContent = document.querySelector(".boardContent");
+        const $boardImage = document.querySelector('.boardImage');
 
         const $deleteBtn = document.querySelector(".deleteBtn");
         const $updateBtn = document.querySelector(".updateBtn");
@@ -188,6 +189,24 @@
                 $boardTitle.innerText = result.boardTitle;
                 $boardContent.innerText = result.boardContent;
                 $boardWriter.innerText = result.writerName;  
+                const imageName = result.imageName;
+
+                if(imageName != null){ // 이미지가 있는 경우에만
+                    axios.get(`/images/${imageName}`,{
+                        responseType:'blob'
+                    })
+                    .then(response => {
+    
+                        if(response.data != ""){
+                            // 데이터 받긴하는데 외계어로 받아서 이미지 안나오다가... responseType:blob이랑 아래처럼 처리하니까 이미지 나옴...
+                            const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] } ));
+                            $boardImage.src = url;
+                        }
+                    })
+                    .catch(err => console.log(err));
+                }
+                
+
             }else{
                 alert(response.data.message);
             }
