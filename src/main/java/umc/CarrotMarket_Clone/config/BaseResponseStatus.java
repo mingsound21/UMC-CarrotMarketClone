@@ -65,7 +65,8 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_POST(false, 5002, "게시물 수정 실패"),
     // 5000 : 필요시 만들어서 쓰세요
     FAIL_FILE_UPLOAD(false, 6000, "파일 업로드에 실패하였습니다."),
-    CANNOT_FIND_FILE(false, 6001, "해당 파일을 찾을 수 없습니다.");
+    CANNOT_FIND_FILE(false, 6001, "해당 파일을 찾을 수 없습니다."),
+    FAIL_FILE_CHANGE(false, 6002, "S3: MultipartFile -> File 전환 실패");
     // 6000 : 필요시 만들어서 쓰세요
 
 

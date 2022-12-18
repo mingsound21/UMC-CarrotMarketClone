@@ -1,5 +1,6 @@
 package umc.CarrotMarket_Clone.src.board;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
@@ -11,11 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import umc.CarrotMarket_Clone.config.BaseException;
 import umc.CarrotMarket_Clone.config.BaseResponse;
+import umc.CarrotMarket_Clone.config.BaseResponseStatus;
+import umc.CarrotMarket_Clone.src.S3.S3Uploader;
 import umc.CarrotMarket_Clone.src.board.model.*;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+
+import static umc.CarrotMarket_Clone.config.BaseResponseStatus.FAIL_FILE_CHANGE;
 
 @RestController
 @RequestMapping("/boards")
@@ -24,21 +30,30 @@ public class BoardController {
 
     private final BoardService boardService;
     private final FileService fileService;
+    private final S3Uploader s3Uploader;
+
     /**
      * 생성
      */
     @PostMapping("")
     public BaseResponse<PostBoardRes> create(
             @RequestPart(value = "postBoardReq") PostBoardReq postBoardReq,
-            @RequestPart(value = "boardImg") MultipartFile multipartFile){
+            @RequestPart(value = "boardImg", required = false) MultipartFile multipartFile){
+
         String fileName = "";
-        if(!multipartFile.getOriginalFilename().equals("")){
+        if(multipartFile != null){ // 파일 업로드한 경우에만
             // 파일 업로드
             try{
-                fileName = fileService.fileUpload(multipartFile);
-            }catch (BaseException e){
-                return new BaseResponse<>(e.getStatus());
+
+                // fileName = fileService.fileUpload(multipartFile);
+                fileName = s3Uploader.upload(multipartFile, "images"); // S3 버킷의 images 디렉토리 안에 저장됨
+                System.out.println("fileName = " + fileName);
+            }catch (IOException e){
+                return new BaseResponse<>(FAIL_FILE_CHANGE);
             }
+            /*catch (BaseException e){
+                return new BaseResponse<>(e.getStatus());
+            }*/
         }
 
         // 저장
@@ -96,6 +111,7 @@ public class BoardController {
     @PatchMapping("/{boardId}")
     public BaseResponse<PatchBoardRes> update(@PathVariable Long boardId, @RequestBody PatchBoardReq patchBoardReq){
         try{
+            System.out.println("patchBoardReq = " + patchBoardReq.getBoardTitle() + "," + patchBoardReq.getBoardContent());
             PatchBoardRes updatedBoard = boardService.update(boardId, patchBoardReq);
             return new BaseResponse<>(updatedBoard);
         }catch (BaseException e){
