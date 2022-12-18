@@ -176,7 +176,8 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
     <script>
-        axios.defaults.baseURL = "http://localhost:9000/boards";
+        //axios.defaults.baseURL = "http://localhost:9000/boards";
+        axios.defaults.baseURL = "https://mingsound.shop/boards";
         
         const $boardTitleInput = document.querySelector("#boardTitleInput");
         const $boardContentInput = document.querySelector("#boardContentInput");
@@ -197,17 +198,18 @@
             if(title=='' || content == "" || writer == ""){
                 alert("제목, 내용, 작성자 중 작성하지 않은 내용이 있습니다.");
             }else{
-                const jsonData = `
+                const jsonData = 
                 {
                     "boardTitle" : title,
                     "boardContent" : content,
                     "writerName" : writer
-                }
-                `;
+                };
                 const boardImage = $boardImage.files[0];
 
                 const formData = new FormData();
-                formData.append("postBoardReq", jsonData);
+                formData.append("postBoardReq", new Blob([JSON.stringify(jsonData)], {
+                    type: "application/json"
+                }));
                 if(boardImage != undefined){
                     formData.append("boardImg", $boardImage.files[0]);
                 }

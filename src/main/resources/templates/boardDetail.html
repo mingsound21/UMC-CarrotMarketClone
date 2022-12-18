@@ -166,7 +166,9 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
     <script>
-        axios.defaults.baseURL = "http://localhost:9000/boards";
+        //axios.defaults.baseURL = "http://localhost:9000/boards";
+        axios.defaults.baseURL = "https://mingsound.shop/boards";
+
         const boardId = localStorage.getItem("boardId");
         localStorage.removeItem("boardId");
 
@@ -191,7 +193,12 @@
                 $boardWriter.innerText = result.writerName;  
                 const imageName = result.imageName;
 
-                if(imageName != null){ // 이미지가 있는 경우에만
+                if(imageName != null && imageName != ''){ // 이미지가 있는 경우에만
+                    // AWS S3에서 사진 받아오기
+                    $boardImage.src = imageName; // 아예 경로를 받아옴
+
+                    // 로컬에 저장했을 때 사용했던 CODE
+                    /*
                     axios.get(`/images/${imageName}`,{
                         responseType:'blob'
                     })
@@ -204,6 +211,7 @@
                         }
                     })
                     .catch(err => console.log(err));
+                    */
                 }
                 
 
@@ -220,7 +228,10 @@
 
                 if(isSuccess){
                     alert("성공적으로 삭제되었습니다.");
-                    location.href = 'http://localhost:9000/board';
+                    //location.href = 'http://localhost:9000/board';
+                    location.href = 'https://mingsound.shop/board';
+                    
+
                 }else{
                     alert(response.data.message);
                 }
@@ -231,7 +242,8 @@
         // 수정
         $updateBtn.addEventListener("click", (event) => {
             localStorage.setItem("boardId", boardId);
-            location.href = 'http://localhost:9000/boardUpdate';
+            //location.href = 'http://localhost:9000/boardUpdate';
+            location.href = 'https://mingsound.shop/boardUpdate';
         })
     </script>
 </body>

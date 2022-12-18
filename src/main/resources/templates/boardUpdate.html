@@ -143,13 +143,15 @@
                         <label for="boardContentInput" class="form-label">게시물 내용</label>
                         <textarea class="form-control" id="boardContentInput" rows="6"></textarea>
                     </div>
+                    <!-- 게시물 사진 수정은 S3에서 사진 삭제하는 법을 아직 몰라서... 추후에 update
                     <div class="mb-3">
                         <label for="formFile" class="form-label">게시물 사진</label>
                         <input class="form-control boardImage" type="file" id="formFile">
                     </div>
+                    -->
                     <div class="mb-3">
                         <label for="boardWriter" class="form-label">작성자</label>
-                        <input type="text" class="form-control" id="boardWriter" placeholder="작성자명을 입력해주세요.">
+                        <input type="text" readonly class="form-control" id="boardWriter" placeholder="작성자명을 입력해주세요.">
                     </div>
                     <button type="button" class="btn btn-warning updateBtn">Update</button>
                 </div>
@@ -174,14 +176,16 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
     <script>
-        axios.defaults.baseURL = "http://localhost:9000/boards";
+        //axios.defaults.baseURL = "http://localhost:9000/boards";
+        axios.defaults.baseURL = "https://mingsound.shop/boards";
+
         const boardId = localStorage.getItem("boardId");
         localStorage.removeItem("boardId");
 
 
         const $boardTitleInput = document.querySelector("#boardTitleInput");
         const $boardContentInput = document.querySelector("#boardContentInput");
-        const $boardImage = document.querySelector(".boardImage");
+        // const $boardImage = document.querySelector(".boardImage");
         const $boardWriter = document.querySelector("#boardWriter");
 
         const $updateBtn = document.querySelector(".updateBtn");
@@ -209,12 +213,56 @@
 
             const title = $boardTitleInput.value;
             const content = $boardContentInput.value;
-            const writer = $boardWriter.value;
-            
+            console.log(title, content); // 확인
+
             axios.patch(`/${boardId}`, {
-                    "postTitle" : title,
-                    "postContent" : content,
-                    "writerName" : writer
+                    "boardTitle" : title,
+                    "boardContent" : content,
+            })
+            .then(response => {
+                const isSuccess = response.data.isSuccess;
+
+                if(isSuccess){
+                    alert("성공적으로 수정하였습니다");
+                    //location.href = "http://localhost:9000/board";
+                    location.href = "https://mingsound.shop/board";
+                }else{
+                    alert(response.data.message);
+                }
+            })
+            .catch(err => console.log(err));
+        })
+
+        // 추후에 사진까지 수정 가능할 경우 사용 - 코드 보완 필요
+        /*
+        $updateBtn.addEventListener("click", (event) => {
+
+            const title = $boardTitleInput.value;
+            const content = $boardContentInput.value;
+            const writer = $boardWriter.value;
+
+            const jsonData = 
+            {
+                "boardTitle" : title,
+                "boardContent" : content,
+                "writerName" : writer
+            };
+
+            const boardImage = $boardImage.files[0];
+
+            const formData = new FormData();
+            formData.append("patchBoardReq", new Blob([JSON.stringify(jsonData)], {
+                type: "application/json"
+            }));
+
+            if(boardImage != undefined){
+                formData.append("boardImg", $boardImage.files[0]);
+            }
+
+            axios.patch(`/${boardId}`, formData, {
+                headers : {
+                    'Content-Type' : 'multipart/form-data'
+                }
             })
             .then(response => {
                 const isSuccess = response.data.isSuccess;
@@ -228,6 +276,8 @@
             })
             .catch(err => console.log(err));
         })
+        */
+        
     </script>
 </body>
 
