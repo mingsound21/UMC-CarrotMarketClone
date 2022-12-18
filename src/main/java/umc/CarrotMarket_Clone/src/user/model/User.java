@@ -6,7 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import umc.CarrotMarket_Clone.src.common.BaseTimeEntity;
-import umc.CarrotMarket_Clone.src.post.model.Post;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
