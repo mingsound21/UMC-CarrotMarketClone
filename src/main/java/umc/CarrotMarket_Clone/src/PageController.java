@@ -46,6 +46,10 @@ public class PageController {
         return "register";
     }
 
+    @RequestMapping(value = "/setting")
+    public String setting(){
+        return "setting";
+    }
     @RequestMapping(value = "/board")
     public String board(){
         return "board";
