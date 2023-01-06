@@ -1,15 +1,23 @@
 package umc.CarrotMarket_Clone.config.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration // 설정 클래스에 붙이는 어노테이션, 스프링 빈
 @EnableWebSecurity // 스프링 시큐리티 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurityConfigurerAdapter : 스프링 시큐리티 설정 관련 클래스, 커스텀 설정 클래스가 이 클래스의 메소드를 오버라이딩해야 스프링 시큐리티에 반영됨
+
+    // 빈 등록
+    @Bean
+    public SecurityAuthenticationFilter securityAuthenticationFilter() {
+        return new SecurityAuthenticationFilter();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -28,6 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                 .and()
                 .formLogin().disable()
         ;
+
+        http
+                .addFilterBefore(securityAuthenticationFilter(), // addBefore - 지정된 필터 앞에 커스텀 필터 추가
+                        UsernamePasswordAuthenticationFilter.class); // UsernamePasswordAuthenticationFilter 앞에 securityAuthenticationFilter 추가 
     }
 }
 

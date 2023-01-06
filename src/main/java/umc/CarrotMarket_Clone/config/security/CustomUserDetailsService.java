@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import umc.CarrotMarket_Clone.src.user.UserSpringDataRepository;
 
 // UserDetailsService 구현체
 // 인증 로직 서비스
 @RequiredArgsConstructor
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
     // loadUserByUsername 함수에서는 인증된 결과를 가지고, UserDetails 인터페이스를 구현한 인증 대상 객체를 리턴
 
