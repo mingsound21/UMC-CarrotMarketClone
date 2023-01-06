@@ -1,4 +1,4 @@
-package umc.CarrotMarket_Clone.config;
+package umc.CarrotMarket_Clone.config.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
