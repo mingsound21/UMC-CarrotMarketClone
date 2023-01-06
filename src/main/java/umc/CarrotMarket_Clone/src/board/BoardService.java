@@ -1,12 +1,11 @@
 package umc.CarrotMarket_Clone.src.board;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import umc.CarrotMarket_Clone.config.BaseException;
+import umc.CarrotMarket_Clone.src.common.exception.BaseException;
 import umc.CarrotMarket_Clone.src.board.model.*;
 import umc.CarrotMarket_Clone.src.user.UserSpringDataRepository;
 import umc.CarrotMarket_Clone.src.user.model.User;
@@ -14,10 +13,9 @@ import umc.CarrotMarket_Clone.src.user.model.User;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.FAIL_FIND_BOARD;
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.FAIL_FIND_USER;
+import static umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus.FAIL_FIND_BOARD;
+import static umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus.FAIL_FIND_USER;
 
 @Service
 @Transactional

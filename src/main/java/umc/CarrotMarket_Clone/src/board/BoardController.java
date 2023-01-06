@@ -1,27 +1,20 @@
 package umc.CarrotMarket_Clone.src.board;
 
-import com.sun.tools.jconsole.JConsoleContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import umc.CarrotMarket_Clone.config.BaseException;
-import umc.CarrotMarket_Clone.config.BaseResponse;
-import umc.CarrotMarket_Clone.config.BaseResponseStatus;
+import umc.CarrotMarket_Clone.src.common.exception.BaseException;
+import umc.CarrotMarket_Clone.src.common.exception.BaseResponse;
 import umc.CarrotMarket_Clone.src.S3.S3Uploader;
 import umc.CarrotMarket_Clone.src.board.model.*;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.FAIL_FILE_CHANGE;
+import static umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus.FAIL_FILE_CHANGE;
 
 @RestController
 @RequestMapping("/boards")

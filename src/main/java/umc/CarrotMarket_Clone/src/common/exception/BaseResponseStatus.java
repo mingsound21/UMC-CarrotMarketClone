@@ -1,4 +1,4 @@
-package umc.CarrotMarket_Clone.config;
+package umc.CarrotMarket_Clone.src.common.exception;
 
 import lombok.Getter;
 

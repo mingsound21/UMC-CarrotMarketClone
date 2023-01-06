@@ -2,14 +2,13 @@ package umc.CarrotMarket_Clone.src.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import umc.CarrotMarket_Clone.config.BaseException;
+import umc.CarrotMarket_Clone.src.common.exception.BaseException;
 import umc.CarrotMarket_Clone.src.user.model.User;
-import umc.CarrotMarket_Clone.src.user.model.UserStatus;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.POST_USERS_WRONG_EMAIL;
+import static umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus.POST_USERS_WRONG_EMAIL;
 
 @Repository
 @RequiredArgsConstructor

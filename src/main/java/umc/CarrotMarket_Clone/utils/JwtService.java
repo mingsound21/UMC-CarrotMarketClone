@@ -7,14 +7,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import umc.CarrotMarket_Clone.config.BaseException;
+import umc.CarrotMarket_Clone.src.common.exception.BaseException;
 import umc.CarrotMarket_Clone.config.secret.Secret;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.EMPTY_JWT;
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.INVALID_JWT;
+import static umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus.EMPTY_JWT;
+import static umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus.INVALID_JWT;
 
 @Service
 public class JwtService {

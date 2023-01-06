@@ -3,16 +3,13 @@ package umc.CarrotMarket_Clone.src.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import umc.CarrotMarket_Clone.config.BaseException;
-import umc.CarrotMarket_Clone.config.BaseResponse;
-import umc.CarrotMarket_Clone.config.BaseResponseStatus;
+import umc.CarrotMarket_Clone.src.common.exception.BaseException;
+import umc.CarrotMarket_Clone.src.common.exception.BaseResponse;
+import umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus;
 import umc.CarrotMarket_Clone.src.user.model.*;
 import umc.CarrotMarket_Clone.utils.JwtService;
 
 import java.util.List;
-
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.EXPIRED_JWT;
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.INVALID_USER_JWT;
 
 @RestController
 @RequestMapping("/users")

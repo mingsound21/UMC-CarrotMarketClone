@@ -3,7 +3,7 @@ package umc.CarrotMarket_Clone.src.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import umc.CarrotMarket_Clone.config.BaseException;
+import umc.CarrotMarket_Clone.src.common.exception.BaseException;
 import umc.CarrotMarket_Clone.config.secret.Secret;
 import umc.CarrotMarket_Clone.src.user.model.*;
 import umc.CarrotMarket_Clone.utils.AES128;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.*;
+import static umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus.*;
 
 @Service
 @Transactional(readOnly = true)

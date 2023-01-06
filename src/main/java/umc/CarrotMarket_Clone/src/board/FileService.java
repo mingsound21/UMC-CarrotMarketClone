@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,19 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import umc.CarrotMarket_Clone.config.BaseException;
+import umc.CarrotMarket_Clone.src.common.exception.BaseException;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Optional;
 import java.util.UUID;
 
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.*;
+import static umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor

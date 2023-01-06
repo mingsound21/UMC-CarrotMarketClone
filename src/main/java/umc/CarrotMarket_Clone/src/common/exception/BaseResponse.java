@@ -1,11 +1,11 @@
-package umc.CarrotMarket_Clone.config;
+package umc.CarrotMarket_Clone.src.common.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 
-import static umc.CarrotMarket_Clone.config.BaseResponseStatus.SUCCESS;
+import static umc.CarrotMarket_Clone.src.common.exception.BaseResponseStatus.SUCCESS;
 
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 @AllArgsConstructor
