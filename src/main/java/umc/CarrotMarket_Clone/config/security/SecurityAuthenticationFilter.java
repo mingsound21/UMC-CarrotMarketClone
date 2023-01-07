@@ -26,7 +26,7 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
         String username = request.getRequestURI().contains("/auth") ? "test1" : "test";
 
         //아무 값이나 집어넣음.
-        UserDetails authentication = customUserDetailsService.loadUserByUsername(username);
+        UserDetails authentication = customUserDetailsService.loadUserByUsername("test");// 현재 DB에 "test"라는 이름을 가진 유저가 존재함.
 
         UsernamePasswordAuthenticationToken auth = // UsernamePasswordAuthenticationToken은 AbstractAuthenticationToken 상속, AbstractAuthenticationToken는 Authentication 객체 상속
                 //여기있는 super.setAuthenticated(true); 를 타야함.

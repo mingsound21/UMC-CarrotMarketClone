@@ -28,12 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 스프링 시큐리티에서 세션 관리 X, 서버에서 관리하는 세션없이 클라이언트에서 보내준 토큰을 인증하는 방식 사용할 거라서
                     .and()
                 .exceptionHandling()
-                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint()) // 401(UnAuthorized)에러 - 인증 안됨
+                    .accessDeniedHandler(new CustomAccessDeniedHandler()) // 403(Forbidden)에러 - 인증은 되었으나, 권한이 없음
                     .and()
                 .authorizeRequests()// 이제 부터 인증 절차에 대한 설정 시작
                     .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .antMatchers("/api/test/permit-all").permitAll()
-                    .antMatchers("/api/test/auth").authenticated()
+                    .antMatchers("/api/test/auth").hasRole("AUTH") // /auth url에는 AUTH라는 Role이 있어야 접근 성공
                     .antMatchers("/**").authenticated()
                     .anyRequest().permitAll()
                     .and()
