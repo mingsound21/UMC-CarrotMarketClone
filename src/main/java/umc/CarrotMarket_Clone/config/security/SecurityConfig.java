@@ -3,6 +3,7 @@ package umc.CarrotMarket_Clone.config.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -10,7 +11,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration // 설정 클래스에 붙이는 어노테이션, 스프링 빈
-@EnableWebSecurity // 스프링 시큐리티 활성화
+@EnableWebSecurity // 스프링 시큐리티 활성화, @AuthenticationPrincipal 어노테이션을 통해서 Authentication 객체 속에 들어있는 principal 필드를 가져오올 수 있음.
+@EnableGlobalMethodSecurity(securedEnabled = true) // Controller 메소드에 직접적으로 Role 부여 가능
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurityConfigurerAdapter : 스프링 시큐리티 설정 관련 클래스, 커스텀 설정 클래스가 이 클래스의 메소드를 오버라이딩해야 스프링 시큐리티에 반영됨
 
     // 빈 등록

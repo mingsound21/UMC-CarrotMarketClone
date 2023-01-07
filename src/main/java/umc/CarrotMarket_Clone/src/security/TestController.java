@@ -1,9 +1,12 @@
 package umc.CarrotMarket_Clone.src.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import umc.CarrotMarket_Clone.config.security.SecurityUser;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/test")
@@ -22,9 +25,11 @@ public class TestController {
     }
 
     // 인증O
+    // SecurityConfig에서 @EnableGlobalMethodSecurity 사용으로 .hasRole()을 아래와 같이 어노테이션으로 처리 가능
+    @Secured("ROLE_AUTH")
     @GetMapping("/auth")
-    public Object getTest2() throws Exception{
-        return testService.getTest2();
+    public Object getTest2(@AuthenticationPrincipal SecurityUser securityUser) throws Exception{ // 스프링 시큐리티 내부 XXXProvider라는 객체에서 Authentication에 저장된 Principal 객체를 꺼내줌
+        return testService.getTest2(securityUser);
     }
 
 

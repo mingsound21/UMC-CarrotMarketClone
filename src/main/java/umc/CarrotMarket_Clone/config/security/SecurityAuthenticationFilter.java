@@ -30,7 +30,9 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
 
         UsernamePasswordAuthenticationToken auth = // UsernamePasswordAuthenticationToken은 AbstractAuthenticationToken 상속, AbstractAuthenticationToken는 Authentication 객체 상속
                 //여기있는 super.setAuthenticated(true); 를 타야함.
-                new UsernamePasswordAuthenticationToken(authentication.getUsername(), null, authentication.getAuthorities()); // 여기 3번째 인자 null로 뒀더니 계속 안됐었음 ㅠ
+                new UsernamePasswordAuthenticationToken(authentication, null, authentication.getAuthorities()); // 여기 3번째 인자 null로 뒀더니 계속 안됐었음 ㅠ,
+                // 첫번째 인자 : authentication.getUsername()에서 authentication 으로
+                // => 그래야 @AuthenticationPrincipal 어노테이션이 가져오는 getPrincipal() 메소드 호출시 SecurityUser를 가져옴.
 
         SecurityContextHolder.getContext().setAuthentication(auth);// SecurityCOntextHolder에 있는 Context 객체의 authentication 여부에 따라 인증 여부 결정
 
