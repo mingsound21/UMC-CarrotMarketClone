@@ -18,3 +18,7 @@ DB - MySQL <br>
 - 로그인/로그아웃
 - 회원 조회/수정/삭제
 - 게시물 작성/조회/수정/삭제
+<br>
+
+## 🔐 Spring Security 적용은 아래의 블로그를 참고하였습니다.
+[Spring Security - 코딩하는 흑구님 블로그](https://sas-study.tistory.com/356)
