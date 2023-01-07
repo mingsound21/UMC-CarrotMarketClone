@@ -23,14 +23,14 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 이부분을 추가하여 /auth로 들어오는 경우는 username이 "test1"이기 때문에 인증을 실패합니다.
-        String username = request.getRequestURI().contains("/auth") ? "test1" : "test";
+        // String username = request.getRequestURI().contains("/auth") ? "test1" : "test";
 
         //아무 값이나 집어넣음.
         UserDetails authentication = customUserDetailsService.loadUserByUsername("test");// 현재 DB에 "test"라는 이름을 가진 유저가 존재함.
 
         UsernamePasswordAuthenticationToken auth = // UsernamePasswordAuthenticationToken은 AbstractAuthenticationToken 상속, AbstractAuthenticationToken는 Authentication 객체 상속
                 //여기있는 super.setAuthenticated(true); 를 타야함.
-                new UsernamePasswordAuthenticationToken(authentication.getUsername(), null, null);
+                new UsernamePasswordAuthenticationToken(authentication.getUsername(), null, authentication.getAuthorities()); // 여기 3번째 인자 null로 뒀더니 계속 안됐었음 ㅠ
 
         SecurityContextHolder.getContext().setAuthentication(auth);// SecurityCOntextHolder에 있는 Context 객체의 authentication 여부에 따라 인증 여부 결정
 

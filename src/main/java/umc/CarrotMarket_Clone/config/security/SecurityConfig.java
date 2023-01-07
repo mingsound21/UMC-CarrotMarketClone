@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                 .authorizeRequests()// 이제 부터 인증 절차에 대한 설정 시작
                     .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .antMatchers("/api/test/permit-all").permitAll()
-                    .antMatchers("/api/test/auth").hasRole("AUTH") // /auth url에는 AUTH라는 Role이 있어야 접근 성공
+                    .antMatchers("/api/test/auth").hasRole("AUTH") // /auth url에는 AUTH라는 Role이 있어야 접근 성공, "Role_" 이라는 prefix 자동으로 붙음. 따라서 "Role_권한명" 이런식으로 이름 붙임.
                     .antMatchers("/**").authenticated()
                     .anyRequest().permitAll()
                     .and()

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import umc.CarrotMarket_Clone.src.user.UserSpringDataRepository;
 import umc.CarrotMarket_Clone.src.user.model.User;
 
+import java.util.Arrays;
 import java.util.List;
 
 // UserDetailsService 구현체
@@ -20,18 +21,20 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserSpringDataRepository userSpringDataRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String loginUsername) throws UsernameNotFoundException {
 
         System.out.println("인증을 받습니다.");
 
+        if(!loginUsername.equals("test")) throw new UsernameNotFoundException("해당 유저가 존재하지 않습니다.");
         //로그인 로직 시작
-        List<User> findUserList = userSpringDataRepository.findByUserName(loginId);
-        String userName = findUserList.get(0).getUserName();
+        // List<User> findUserList = userSpringDataRepository.findByUserName(loginId);
+        // String userName = findUserList.get(0).getUserName();
 
         // loginId를 이용하여 DB에서 User 객체를 가져옵니다.
         // User user = mapper.getUser(loginID); // 이건 예시고 repository 사용해도 됨.
         // User의 정보를 SecurityUser 에 담아줍니다. 이는 생성자를 이용하는 편입니다.!
-        return new SecurityUser(userName);
+
+        return new SecurityUser(loginUsername, Arrays.asList("ROLE_AUTH"));
     }
 }
 

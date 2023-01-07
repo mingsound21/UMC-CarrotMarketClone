@@ -1,19 +1,34 @@
 package umc.CarrotMarket_Clone.config.security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 // UserDetails 구현체
 // 인증 대상 객체(로그인 객체)
 public class SecurityUser implements UserDetails {
 
     private String username;
+    private Collection<? extends GrantedAuthority> authorities;
+
+    public SecurityUser(String username, List<String> roles) {
+        this.username = username;
+        this.authorities = Optional.ofNullable(roles)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.authorities;
     }
 
     @Override
