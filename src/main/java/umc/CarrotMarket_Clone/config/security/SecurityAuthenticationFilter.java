@@ -22,8 +22,11 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        // 이부분을 추가하여 /auth로 들어오는 경우는 username이 "test1"이기 때문에 인증을 실패합니다.
+        String username = request.getRequestURI().contains("/auth") ? "test1" : "test";
+
         //아무 값이나 집어넣음.
-        UserDetails authentication = customUserDetailsService.loadUserByUsername("test");
+        UserDetails authentication = customUserDetailsService.loadUserByUsername(username);
 
         UsernamePasswordAuthenticationToken auth = // UsernamePasswordAuthenticationToken은 AbstractAuthenticationToken 상속, AbstractAuthenticationToken는 Authentication 객체 상속
                 //여기있는 super.setAuthenticated(true); 를 타야함.

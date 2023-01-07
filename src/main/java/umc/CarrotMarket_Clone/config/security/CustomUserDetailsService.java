@@ -6,6 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import umc.CarrotMarket_Clone.src.user.UserSpringDataRepository;
+import umc.CarrotMarket_Clone.src.user.model.User;
+
+import java.util.List;
 
 // UserDetailsService 구현체
 // 인증 로직 서비스
@@ -22,11 +25,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         System.out.println("인증을 받습니다.");
 
         //로그인 로직 시작
+        List<User> findUserList = userSpringDataRepository.findByUserName(loginId);
+        String userName = findUserList.get(0).getUserName();
 
         // loginId를 이용하여 DB에서 User 객체를 가져옵니다.
         // User user = mapper.getUser(loginID); // 이건 예시고 repository 사용해도 됨.
         // User의 정보를 SecurityUser 에 담아줍니다. 이는 생성자를 이용하는 편입니다.!
-        return new SecurityUser();
+        return new SecurityUser(userName);
     }
 }
 

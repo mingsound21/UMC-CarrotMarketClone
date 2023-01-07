@@ -8,6 +8,9 @@ import java.util.Collection;
 // UserDetails 구현체
 // 인증 대상 객체(로그인 객체)
 public class SecurityUser implements UserDetails {
+
+    private String username;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -20,7 +23,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return  "test";
+        return  this.username;
     }
 
     @Override
@@ -41,6 +44,10 @@ public class SecurityUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public SecurityUser(String username) {
+        this.username = username;
     }
 }
 

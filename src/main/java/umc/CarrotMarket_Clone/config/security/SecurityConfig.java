@@ -25,15 +25,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                 .cors().and() // CorsFilter 활성화
                 .csrf().disable()// 세션을 사용하지 않고, jwt 토큰 사용해 REST API를 만들기 때문에 csrf는 disable
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 스프링 시큐리티에서 세션 관리 X, 서버에서 관리하는 세션없이 클라이언트에서 보내준 토큰을 인증하는 방식 사용할 거라서
-                .and()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 스프링 시큐리티에서 세션 관리 X, 서버에서 관리하는 세션없이 클라이언트에서 보내준 토큰을 인증하는 방식 사용할 거라서
+                    .and()
+                .exceptionHandling()
+                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                    .and()
                 .authorizeRequests()// 이제 부터 인증 절차에 대한 설정 시작
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/api/test/permit-all").permitAll()
-                .antMatchers("/api/test/auth").authenticated()
-                .antMatchers("/**").authenticated()
-                .anyRequest().permitAll()
-                .and()
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .antMatchers("/api/test/permit-all").permitAll()
+                    .antMatchers("/api/test/auth").authenticated()
+                    .antMatchers("/**").authenticated()
+                    .anyRequest().permitAll()
+                    .and()
                 .formLogin().disable()
         ;
 
